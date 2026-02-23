@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            color: #667eea;
+            font-size: 2rem;
+        }
+
+        .logo p {
+            color: #666;
+        }
+
+        .date-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        /* Stats */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            color: #667eea;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            background: white;
+            border-radius: 15px;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .nav-tab {
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-tab:hover {
+            background: #f0f2f5;
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #f0f2f5;
+        }
+
+        .section-header h2 {
+            color: #333;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background: #f0f2f5;
+            color: #333;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        /* Cards */
+        .card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Excel Upload */
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            background: #f8f9fa;
+            margin: 20px 0;
+        }
+
+        .upload-area:hover {
+            background: #e8f0fe;
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            color: #667eea;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        /* Alert */
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <!-- SheetJS for Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <h1>🏫 Alihaider School System</h1>
+                <p>Complete School Management Solution</p>
+            </div>
+            <div class="date-badge" id="currentDate"></div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-number" id="totalStudents">0</div>
+                <div>Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👨‍🏫</div>
+                <div class="stat-number" id="totalTeachers">0</div>
+                <div>Teachers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📚</div>
+                <div class="stat-number" id="totalClasses">0</div>
+                <div>Classes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📝</div>
+                <div class="stat-number" id="totalTests">0</div>
+                <div>Tests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-number" id="avgPerformance">0%</div>
+                <div>Performance</div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="switchTab('dashboard')">🏠 Dashboard</div>
+            <div class="nav-tab" onclick="switchTab('students')">👥 Students</div>
+            <div class="nav-tab" onclick="switchTab('teachers')">👨‍🏫 Teachers</div>
+            <div class="nav-tab" onclick="switchTab('exams')">📝 Exams</div>
+            <div class="nav-tab" onclick="switchTab('results')">📊 Results</div>
+            <div class="nav-tab" onclick="switchTab('import')">📤 Import Excel</div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="section active">
+            <div class="section-header">
+                <h2>Dashboard Overview</h2>
+            </div>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3>📋 Recent Activities</h3>
+                    <div id="recentActivities">
+                        <p>• 5 students added</p>
+                        <p>• Test results published</p>
+                        <p>• New teacher joined</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>📅 Upcoming Tests</h3>
+                    <div id="upcomingTests">
+                        <p>• Mathematics - 5th (Tomorrow)</p>
+                        <p>• Science - 8th (Wednesday)</p>
+                        <p>• English - 3rd (Friday)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="upload-area" onclick="document.getElementById('quickExcel').click()">
+                <div class="upload-icon">📊</div>
+                <h3>Quick Import Students from Excel</h3>
+                <p>Click to upload Excel file</p>
+                <input type="file" id="quickExcel" accept=".xlsx,.xls,.csv" style="display: none;" onchange="quickImport(event)">
+            </div>
+        </div>
+
+        <!-- Students Section -->
+        <div id="students" class="section">
+            <div class="section-header">
+                <h2>Student Management</h2>
+                <button class="btn" onclick="showAddStudentModal()">➕ Add Student</button>
+            </div>
+
+            <div class="grid-3" style="margin-bottom: 20px;">
+                <div class="form-group">
+                    <label>Class</label>
+                    <select id="filterClass" onchange="filterStudents()">
+                        <option value="All">All Classes</option>
+                        <option value="1st">1st</option>
+                        <option value="2nd">2nd</option>
+                        <option value="3rd">3rd</option>
+                        <option value="4th">4th</option>
+                        <option value="5th">5th</option>
+                        <option value="6th">6th</option>
+                        <option value="7th">7th</option>
+                        <option value="8th">8th</option>
+                        <option value="9th">9th</option>
+                        <option value="10th">10th</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Search</label>
+                    <input type="text" id="searchStudent" placeholder="Search by name..." onkeyup="filterStudents()">
+                </div>
+                <div class="form-group">
+                    <label>Actions</label>
+                    <button class="btn btn-secondary" onclick="exportToExcel()">📥 Export Excel</button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Roll No</th>
+                            <th>Name</th>
+                            <th>Father Name</th>
+                            <th>Class</th>
+                            <th>Section</th>
+                            <th>Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsList"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Teachers Section -->
+        <div id="teachers" class="section">
+            <div class="section-header">
+                <h2>Teacher Management</h2>
+                <button class="btn" onclick="showAddTeacherModal()">➕ Add Teacher</button>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Subject</th>
+                            <th>Qualification</th>
+                            <th>Experience</th>
+                            <th>Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody id="teachersList"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Exams Section -->
+        <div id="exams" class="section">
+            <div class="section-header">
+                <h2>Exam Management</h2>
+                <button class="btn" onclick="showAddTestModal()">➕ Create Test</button>
+            </div>
+
+            <div class="grid-2" style="margin-bottom: 20px;">
+                <div class="form-group">
+                    <label>Class</label>
+                    <select id="testClass" onchange="loadTests()">
+                        <option value="1st">1st</option>
+                        <option value="2nd">2nd</option>
+                        <option value="3rd">3rd</option>
+                        <option value="4th">4th</option>
+                        <option value="5th">5th</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <select id="testSubject" onchange="loadTests()">
+                        <option value="Math">Mathematics</option>
+                        <option value="Science">Science</option>
+                        <option value="English">English</option>
+                        <option value="Urdu">Urdu</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="testsList"></div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="section">
+            <div class="section-header">
+                <h2>Results Management</h2>
+                <button class="btn" onclick="enterMarks()">📝 Enter Marks</button>
+            </div>
+
+            <div class="grid-3" style="margin-bottom: 20px;">
+                <div class="form-group">
+                    <label>Test</label>
+                    <select id="resultTest" onchange="loadResults()">
+                        <option value="monthly">Monthly Test</option>
+                        <option value="midterm">Mid Term</option>
+                        <option value="final">Final</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Class</label>
+                    <select id="resultClass" onchange="loadResults()">
+                        <option value="1st">1st</option>
+                        <option value="2nd">2nd</option>
+                        <option value="3rd">3rd</option>
+                        <option value="4th">4th</option>
+                        <option value="5th">5th</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Section</label>
+                    <select id="resultSection" onchange="loadResults()">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Roll No</th>
+                            <th>Name</th>
+                            <th>Math</th>
+                            <th>Science</th>
+                            <th>English</th>
+                            <th>Urdu</th>
+                            <th>Total</th>
+                            <th>%</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsList"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Import Excel Section -->
+        <div id="import" class="section">
+            <div class="section-header">
+                <h2>Import Students from Excel</h2>
+            </div>
+
+            <div class="upload-area" onclick="document.getElementById('excelFile').click()">
+                <div class="upload-icon">📊</div>
+                <h3>Click to Upload Excel File</h3>
+                <p>Supported: .xlsx, .xls, .csv</p>
+                <input type="file" id="excelFile" accept=".xlsx,.xls,.csv" style="display: none;" onchange="handleExcelUpload(event)">
+            </div>
+
+            <div class="card">
+                <h4>📝 Excel Format Sample:</h4>
+                <pre>
+Roll No | Name      | Father Name | Class | Section | Contact
+101     | Ali Khan  | Ahmed Khan  | 5th   | A       | 03001234567
+102     | Sara Ali  | Muhammad Ali| 5th   | A       | 03007654321
+                </pre>
+                <button class="btn btn-secondary" onclick="downloadSample()">📥 Download Sample</button>
+            </div>
+
+            <!-- Preview Section -->
+            <div id="previewSection" style="display: none;">
+                <h3>Preview</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="importProgress" style="width: 0%"></div>
+                </div>
+                
+                <div class="table-container">
+                    <table id="previewTable"></table>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn" onclick="confirmImport()">✅ Confirm Import</button>
+                    <button class="btn btn-secondary" onclick="cancelImport()">❌ Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div class="modal" id="addStudentModal">
+        <div class="modal-content">
+            <h2>Add New Student</h2>
+            <div class="form-group">
+                <label>Roll No *</label>
+                <input type="text" id="studentRoll" placeholder="e.g., 101">
+            </div>
+            <div class="form-group">
+                <label>Name *</label>
+                <input type="text" id="studentName" placeholder="e.g., Ali Khan">
+            </div>
+            <div class="form-group">
+                <label>Father Name *</label>
+                <input type="text" id="studentFather" placeholder="e.g., Ahmed Khan">
+            </div>
+            <div class="form-group">
+                <label>Class *</label>
+                <select id="studentClass">
+                    <option value="1st">1st</option>
+                    <option value="2nd">2nd</option>
+                    <option value="3rd">3rd</option>
+                    <option value="4th">4th</option>
+                    <option value="5th">5th</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Section</label>
+                <select id="studentSection">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Contact</label>
+                <input type="text" id="studentContact" placeholder="e.g., 03001234567">
+            </div>
+            <button class="btn" onclick="saveStudent()">Save</button>
+            <button class="btn btn-secondary" onclick="closeModal('addStudentModal')">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Add Teacher Modal -->
+    <div class="modal" id="addTeacherModal">
+        <div class="modal-content">
+            <h2>Add New Teacher</h2>
+            <div class="form-group">
+                <label>ID *</label>
+                <input type="text" id="teacherId" placeholder="e.g., T001">
+            </div>
+            <div class="form-group">
+                <label>Name *</label>
+                <input type="text" id="teacherName" placeholder="e.g., Mr. Ahmed">
+            </div>
+            <div class="form-group">
+                <label>Subject *</label>
+                <input type="text" id="teacherSubject" placeholder="e.g., Mathematics">
+            </div>
+            <div class="form-group">
+                <label>Qualification</label>
+                <input type="text" id="teacherQualification" placeholder="e.g., M.Sc">
+            </div>
+            <div class="form-group">
+                <label>Experience</label>
+                <input type="text" id="teacherExperience" placeholder="e.g., 5 years">
+            </div>
+            <div class="form-group">
+                <label>Contact</label>
+                <input type="text" id="teacherContact" placeholder="e.g., 03001234567">
+            </div>
+            <button class="btn" onclick="saveTeacher()">Save</button>
+            <button class="btn btn-secondary" onclick="closeModal('addTeacherModal')">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Add Test Modal -->
+    <div class="modal" id="addTestModal">
+        <div class="modal-content">
+            <h2>Create New Test</h2>
+            <div class="form-group">
+                <label>Title *</label>
+                <input type="text" id="testTitle" placeholder="e.g., Monthly Test">
+            </div>
+            <div class="form-group">
+                <label>Class</label>
+                <select id="testClassModal">
+                    <option value="1st">1st</option>
+                    <option value="2nd">2nd</option>
+                    <option value="3rd">3rd</option>
+                    <option value="4th">4th</option>
+                    <option value="5th">5th</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Subject</label>
+                <select id="testSubjectModal">
+                    <option value="Math">Math</option>
+                    <option value="Science">Science</option>
+                    <option value="English">English</option>
+                    <option value="Urdu">Urdu</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Total Marks</label>
+                <input type="number" id="testTotalMarks" value="100">
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="testDate">
+            </div>
+            <button class="btn" onclick="saveTest()">Create</button>
+            <button class="btn btn-secondary" onclick="closeModal('addTestModal')">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // Data Store
+        let students = JSON.parse(localStorage.getItem('students')) || [];
+        let teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+        let tests = JSON.parse(localStorage.getItem('tests')) || [];
+        let results = JSON.parse(localStorage.getItem('results')) || [];
+        let importHistory = JSON.parse(localStorage.getItem('importHistory')) || [];
+        let currentImportData = [];
+
+        // Initialize
+        window.onload = function() {
+            updateDate();
+            updateStats();
+            displayStudents();
+            displayTeachers();
+            loadTests();
+            loadResults();
+        };
+
+        function updateDate() {
+            let now = new Date();
+            document.getElementById('currentDate').innerHTML = now.toLocaleDateString('en-US', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+        }
+
+        function updateStats() {
+            document.getElementById('totalStudents').innerHTML = students.length;
+            document.getElementById('totalTeachers').innerHTML = teachers.length;
+            
+            let uniqueClasses = [...new Set(students.map(s => s.class))];
+            document.getElementById('totalClasses').innerHTML = uniqueClasses.length;
+            
+            document.getElementById('totalTests').innerHTML = tests.length;
+            
+            // Calculate average performance
+            let totalPercent = 0;
+            let count = 0;
+            for(let testId in results) {
+                for(let studentId in results[testId]) {
+                    totalPercent += results[testId][studentId].percentage || 0;
+                    count++;
+                }
+            }
+            let avg = count > 0 ? (totalPercent / count).toFixed(1) : 85;
+            document.getElementById('avgPerformance').innerHTML = avg + '%';
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // Student Functions
+        function displayStudents() {
+            let tbody = document.getElementById('studentsList');
+            let filterClass = document.getElementById('filterClass')?.value || 'All';
+            let search = document.getElementById('searchStudent')?.value?.toLowerCase() || '';
+            
+            let filtered = students.filter(s => {
+                let classMatch = filterClass === 'All' || s.class === filterClass;
+                let nameMatch = s.name?.toLowerCase().includes(search);
+                return classMatch && nameMatch;
+            });
+            
+            if(filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No students found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = '';
+            filtered.forEach(s => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${s.rollNo || ''}</td>
+                        <td>${s.name || ''}</td>
+                        <td>${s.fatherName || ''}</td>
+                        <td>${s.class || ''}</td>
+                        <td>${s.section || 'A'}</td>
+                        <td>${s.contact || ''}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function filterStudents() {
+            displayStudents();
+        }
+
+        function showAddStudentModal() {
+            document.getElementById('addStudentModal').classList.add('active');
+        }
+
+        function saveStudent() {
+            let student = {
+                id: Date.now(),
+                rollNo: document.getElementById('studentRoll').value,
+                name: document.getElementById('studentName').value,
+                fatherName: document.getElementById('studentFather').value,
+                class: document.getElementById('studentClass').value,
+                section: document.getElementById('studentSection').value,
+                contact: document.getElementById('studentContact').value
+            };
+            
+            if(!student.rollNo || !student.name || !student.fatherName) {
+                alert('Please fill required fields!');
+                return;
+            }
+            
+            students.push(student);
+            localStorage.setItem('students', JSON.stringify(students));
+            closeModal('addStudentModal');
+            displayStudents();
+            updateStats();
+            alert('Student added!');
+        }
+
+        // Teacher Functions
+        function displayTeachers() {
+            let tbody = document.getElementById('teachersList');
+            
+            if(teachers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No teachers added</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = '';
+            teachers.forEach(t => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${t.id || ''}</td>
+                        <td>${t.name || ''}</td>
+                        <td>${t.subject || ''}</td>
+                        <td>${t.qualification || ''}</td>
+                        <td>${t.experience || ''}</td>
+                        <td>${t.contact || ''}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function showAddTeacherModal() {
+            document.getElementById('addTeacherModal').classList.add('active');
+        }
+
+        function saveTeacher() {
+            let teacher = {
+                id: document.getElementById('teacherId').value,
+                name: document.getElementById('teacherName').value,
+                subject: document.getElementById('teacherSubject').value,
+                qualification: document.getElementById('teacherQualification').value,
+                experience: document.getElementById('teacherExperience').value,
+                contact: document.getElementById('teacherContact').value
+            };
+            
+            if(!teacher.id || !teacher.name || !teacher.subject) {
+                alert('Please fill required fields!');
+                return;
+            }
+            
+            teachers.push(teacher);
+            localStorage.setItem('teachers', JSON.stringify(teachers));
+            closeModal('addTeacherModal');
+            displayTeachers();
+            updateStats();
+            alert('Teacher added!');
+        }
+
+        // Test Functions
+        function loadTests() {
+            let container = document.getElementById('testsList');
+            let classVal = document.getElementById('testClass')?.value || '1st';
+            let subject = document.getElementById('testSubject')?.value || 'Math';
+            
+            let filtered = tests.filter(t => t.class === classVal && t.subject === subject);
+            
+            if(filtered.length === 0) {
+                container.innerHTML = '<p>No tests found</p>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            filtered.forEach(t => {
+                container.innerHTML += `
+                    <div class="card">
+                        <h4>${t.title}</h4>
+                        <p>Date: ${t.date || 'N/A'} | Marks: ${t.totalMarks}</p>
+                        <button class="btn btn-secondary" onclick="enterMarksForTest('${t.id}')">Enter Marks</button>
+                    </div>
+                `;
+            });
+        }
+
+        function showAddTestModal() {
+            document.getElementById('addTestModal').classList.add('active');
+        }
+
+        function saveTest() {
+            let test = {
+                id: Date.now(),
+                title: document.getElementById('testTitle').value,
+                class: document.getElementById('testClassModal').value,
+                subject: document.getElementById('testSubjectModal').value,
+                totalMarks: document.getElementById('testTotalMarks').value,
+                date: document.getElementById('testDate').value
+            };
+            
+            if(!test.title) {
+                alert('Please enter test title!');
+                return;
+            }
+            
+            tests.push(test);
+            localStorage.setItem('tests', JSON.stringify(tests));
+            closeModal('addTestModal');
+            loadTests();
+            alert('Test created!');
+        }
+
+        // Results Functions
+        function loadResults() {
+            let tbody = document.getElementById('resultsList');
+            
+            // Demo data
+            tbody.innerHTML = `
+                <tr>
+                    <td>101</td>
+                    <td>Ali Khan</td>
+                    <td>85</td>
+                    <td>78</td>
+                    <td>92</td>
+                    <td>88</td>
+                    <td>343</td>
+                    <td>85.8%</td>
+                    <td>A</td>
+                </tr>
+                <tr>
+                    <td>102</td>
+                    <td>Sara Ali</td>
+                    <td>92</td>
+                    <td>88</td>
+                    <td>95</td>
+                    <td>90</td>
+                    <td>365</td>
+                    <td>91.3%</td>
+                    <td>A+</td>
+                </tr>
+            `;
+        }
+
+        function enterMarks() {
+            alert('Marks entry form will open');
+        }
+
+        // Excel Functions
+        function quickImport(event) {
+            handleExcelUpload(event);
+            switchTab('import');
+        }
+
+        function handleExcelUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+                
+                processExcelData(jsonData);
+            };
+            
+            reader.readAsArrayBuffer(file);
+        }
+
+        function processExcelData(data) {
+            currentImportData = [];
+            
+            for (let i = 1; i < data.length; i++) {
+                const row = data[i];
+                if (row.length < 3) continue;
+                
+                const student = {
+                    rollNo: row[0]?.toString() || '',
+                    name: row[1]?.toString() || '',
+                    fatherName: row[2]?.toString() || '',
+                    class: row[3]?.toString() || '1st',
+                    section: row[4]?.toString() || 'A',
+                    contact: row[5]?.toString() || ''
+                };
+                
+                if (student.name && student.rollNo) {
+                    currentImportData.push(student);
+                }
+            }
+            
+            showPreview();
+        }
+
+        function showPreview() {
+            document.getElementById('previewSection').style.display = 'block';
+            document.getElementById('importProgress').style.width = '100%';
+            
+            let table = document.getElementById('previewTable');
+            let headers = '<tr><th>Roll</th><th>Name</th><th>Father</th><th>Class</th><th>Section</th><th>Contact</th></tr>';
+            let rows = '';
+            
+            currentImportData.slice(0, 5).forEach(s => {
+                rows += `
+                    <tr>
+                        <td>${s.rollNo}</td>
+                        <td>${s.name}</td>
+                        <td>${s.fatherName}</td>
+                        <td>${s.class}</td>
+                        <td>${s.section}</td>
+                        <td>${s.contact}</td>
+                    </tr>
+                `;
+            });
+            
+            if (currentImportData.length > 5) {
+                rows += `<tr><td colspan="6">... and ${currentImportData.length - 5} more</td></tr>`;
+            }
+            
+            table.innerHTML = headers + rows;
+        }
+
+        function confirmImport() {
+            students = [...students, ...currentImportData];
+            localStorage.setItem('students', JSON.stringify(students));
+            
+            importHistory.push({
+                date: new Date().toLocaleString(),
+                count: currentImportData.length
+            });
+            localStorage.setItem('importHistory', JSON.stringify(importHistory));
+            
+            document.getElementById('previewSection').style.display = 'none';
+            currentImportData = [];
+            displayStudents();
+            updateStats();
+            alert(`✅ Imported ${currentImportData.length} students!`);
+        }
+
+        function cancelImport() {
+            document.getElementById('previewSection').style.display = 'none';
+            currentImportData = [];
+        }
+
+        function exportToExcel() {
+            if (students.length === 0) {
+                alert('No students to export!');
+                return;
+            }
+            
+            const data = [['Roll No', 'Name', 'Father Name', 'Class', 'Section', 'Contact']];
+            students.forEach(s => {
+                data.push([s.rollNo, s.name, s.fatherName, s.class, s.section, s.contact]);
+            });
+            
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            XLSX.utils.book_append_sheet(wb, ws, 'Students');
+            XLSX.writeFile(wb, 'students_list.xlsx');
+        }
+
+        function downloadSample() {
+            const data = [
+                ['Roll No', 'Name', 'Father Name', 'Class', 'Section', 'Contact'],
+                ['101', 'Ali Khan', 'Ahmed Khan', '5th', 'A', '03001234567'],
+                ['102', 'Sara Ali', 'Muhammad Ali', '5th', 'A', '03007654321']
+            ];
+            
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            XLSX.utils.book_append_sheet(wb, ws, 'Sample');
+            XLSX.writeFile(wb, 'students_sample.xlsx');
+        }
+
+        // Modal Functions
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+    </script>
+</body>
+</html>
